@@ -34,3 +34,6 @@ public:
 	// Estimation function for the remaining distance to the goal.
 	const int & estimate(const int & xDest, const int & yDest) const;
 };
+
+// Determine priority (in the priority queue)
+bool operator<(const Node & a, const Node & b);

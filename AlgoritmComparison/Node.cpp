@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "Node.h"
 
+// Determine priority (in the priority queue)
+bool operator<(const Node & a, const Node & b)
+{
+	return a.getPriority() > b.getPriority();
+}
 
 Node::Node(int xp, int yp, int d, int p)
 {
@@ -51,10 +56,4 @@ const int & Node::estimate(const int & xDest, const int & yDest) const
 	//d=max(abs(xd), abs(yd));
 
 	return(d);
-}
-
-// Determine priority (in the priority queue)
-bool operator<(const Node & a, const Node & b)
-{
-	return a.getPriority() > b.getPriority();
 }

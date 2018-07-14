@@ -28,13 +28,17 @@ private:
 	Node* n0;
 	Node* m0;
 	int x, y;
+	Node **nodeMap;
 
 	int** create2dArray(int rows, int cols);
 
 public:
-	Node* **nodeMap;
-	void init(int horizontalPlaces, int verticalPlaces, const int & xStart,
+	AStarAlgorithm(int a);
+	void setNodeMap(Node **map);
+	Node* getCurrentNode(); // n0
+	void init(int horizontalSize, int verticalSize, const int & xStart,
 		const int & yStart, const int & xFinish, const int & yFinish);
-	boolean nextStep();
-	void pathFind(const int & xStart, const int & yStart, const int & xFinish, const int & yFinish);
+	bool nextStep();
+	void pathFind(const int & xStart, const int & yStart,
+		const int & xFinish, const int & yFinish);
 };

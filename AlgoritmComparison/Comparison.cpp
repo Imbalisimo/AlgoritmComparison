@@ -1,4 +1,13 @@
+#include "stdafx.h"
 #include "Comparison.h"
+
+Comparison::Comparison() : astar(0) 
+{
+	xStart = 0;
+	yStart = 0;
+	xFinish = 2;
+	yFinish = 2;
+}
 
 Node Comparison::createNode(int xPos, int yPos)
 {
@@ -20,18 +29,18 @@ void Comparison::init(int horizontalSize, int verticalSize)
 {
 	this->horizontalSize = horizontalSize;
 	this->verticalSize = verticalSize;
-	map = new Node *[verticalSize];
+	map = new Node *[horizontalSize];
 	if (map)
-		for (int i = 0; i < verticalSize; ++i)
-			map[i] = new Node[horizontalSize];
+		for (int i = 0; i < horizontalSize; ++i)
+			map[i] = new Node[verticalSize];
 
 	for(int i = 0; i < horizontalSize; ++i)
 		for (int j = 0; j < verticalSize; ++j)
 			map[i][j] = createNode(i, j);
 
 	if (currentAlgorithm = 1)
-		astar.init(horizontalSize, verticalSize, getxStart(), getyStart(),
-			getxFinish(), getyFinish()), astar.nodeMap = &map;
+		astar.setNodeMap(map), astar.init(horizontalSize, verticalSize, getxStart(), getyStart(),
+			getxFinish(), getyFinish());
 	//else
 	// Dijkstra
 

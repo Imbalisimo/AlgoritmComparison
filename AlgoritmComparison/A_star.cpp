@@ -4,6 +4,9 @@
 #include <type_traits>
 #include <typeinfo>
 
+AStarAlgorithm::AStarAlgorithm(int a) :xStart(*&a), xFinish(*&a), yStart(*&a), yFinish(*&a)
+{ }
+
 int** AStarAlgorithm::create2dArray(int rows, int cols) {
 	int **arr = new int *[rows];
 	if (arr)
@@ -28,9 +31,9 @@ void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int & 
 
 	pqi = 0;
 	// reset the node maps
-	for (y = 0; y<horizontalSize; y++)
+	for (int y = 0; y<verticalSize; ++y)
 	{
-		for (x = 0; x<verticalSize; x++)
+		for (int x = 0; x<horizontalSize; ++x)
 		{
 			closed_nodes_map[x][y] = 0;
 			open_nodes_map[x][y] = 0;
@@ -38,20 +41,22 @@ void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int & 
 	}
 
 	// create the start node and push into list of open nodes
-	n0 = nodeMap[xStart][yStart];
+	n0 = &nodeMap[xStart][yStart];
 	n0->updatePriority(xFinish, yFinish);
 	pq[pqi].push(*n0);
+	x = n0->getxPos();
+	y = n0->getyPos();
 	open_nodes_map[x][y] = n0->getPriority(); // mark it on the open nodes map
 }
 
-boolean AStarAlgorithm::nextStep()
+bool AStarAlgorithm::nextStep()
 {
 	int i, j, xdx, ydy;
 	char c;
 	if (!pq[pqi].empty())
 	{
 		// get the current node with the highest priority from the list of open nodes
-		n0 = nodeMap[pq[pqi].top().getxPos()][pq[pqi].top().getyPos()];
+		n0 = &nodeMap[pq[pqi].top().getxPos()][pq[pqi].top().getyPos()];
 
 		x = n0->getxPos(); y = n0->getyPos();
 
@@ -103,7 +108,7 @@ boolean AStarAlgorithm::nextStep()
 				|| map[xdx][ydy] == 1 || closed_nodes_map[xdx][ydy] == 1))
 			{
 				// generate a child node
-				m0 = nodeMap[xdx][ydy];
+				m0 = &nodeMap[xdx][ydy];
 				m0->updateLevel(n0->getLevel());
 				m0->updatePriority(n0->getPriority());
 
@@ -157,5 +162,15 @@ boolean AStarAlgorithm::nextStep()
 void AStarAlgorithm::pathFind(const int & xStart, const int & yStart,
 	const int & xFinish, const int & yFinish)
 {
-	while (nextStep);
+	while (nextStep());
+}
+
+void AStarAlgorithm::setNodeMap(Node **map)
+{
+	nodeMap = map;
+}
+
+Node* AStarAlgorithm::getCurrentNode()
+{
+	return n0;
 }
