@@ -26,8 +26,8 @@ void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int & 
 	open_nodes_map = create2dArray(horizontalSize, verticalSize);; // map of open (not-yet-tried) nodes
 	dir_map = create2dArray(horizontalSize, verticalSize);; // map of directions
 	dir = 4;
-	dx = new int[dir] { 1, 0, -1, 0 };
-	dy = new int[dir] { 0, 1, 0, -1 };
+	dx = new int[dir] { 0, 1, 0, -1 };
+	dy = new int[dir] { -1, 0, 1, 0 };
 
 	pqi = 0;
 	// reset the node maps
@@ -41,7 +41,7 @@ void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int & 
 	}
 
 	// create the start node and push into list of open nodes
-	n0 = &nodeMap[xStart][yStart];
+	n0 = new Node(xStart, yStart, 0, 0);
 	n0->updatePriority(xFinish, yFinish);
 	pq[pqi].push(*n0);
 	x = n0->getxPos();
@@ -56,7 +56,8 @@ bool AStarAlgorithm::nextStep()
 	if (!pq[pqi].empty())
 	{
 		// get the current node with the highest priority from the list of open nodes
-		n0 = &nodeMap[pq[pqi].top().getxPos()][pq[pqi].top().getyPos()];
+		n0 = new Node(pq[pqi].top().getxPos(), pq[pqi].top().getyPos(),
+			pq[pqi].top().getLevel(), pq[pqi].top().getPriority());
 
 		x = n0->getxPos(); y = n0->getyPos();
 
@@ -74,7 +75,7 @@ bool AStarAlgorithm::nextStep()
 			while (!(x == xStart && y == yStart))
 			{
 				j = dir_map[x][y];
-				c = '0' + (j + dir / 2) % dir;
+				c = '0' + (j + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
 				path = c + path;
 				x += dx[j];
 				y += dy[j];
@@ -108,9 +109,9 @@ bool AStarAlgorithm::nextStep()
 				|| map[xdx][ydy] == 1 || closed_nodes_map[xdx][ydy] == 1))
 			{
 				// generate a child node
-				m0 = &nodeMap[xdx][ydy];
+				m0 = new Node(xdx, ydy, n0->getLevel(), n0->getPriority());
 				m0->updateLevel(n0->getLevel());
-				m0->updatePriority(n0->getPriority());
+				m0->updatePriority(xFinish, yFinish);
 
 				m0->nextLevel(i);
 				m0->updatePriority(xFinish, yFinish);
@@ -121,14 +122,14 @@ bool AStarAlgorithm::nextStep()
 					open_nodes_map[xdx][ydy] = m0->getPriority();
 					pq[pqi].push(*m0);
 					// mark its parent node direction
-					dir_map[xdx][ydy] = (i + dir / 2) % dir;
+					dir_map[xdx][ydy] = (i + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
 				}
 				else if (open_nodes_map[xdx][ydy]>m0->getPriority())
 				{
 					// update the priority info
 					open_nodes_map[xdx][ydy] = m0->getPriority();
 					// update the parent direction info
-					dir_map[xdx][ydy] = (i + dir / 2) % dir;
+					dir_map[xdx][ydy] = (i + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
 
 					// replace the node
 					// by emptying one pq to the other one
@@ -165,9 +166,9 @@ void AStarAlgorithm::pathFind(const int & xStart, const int & yStart,
 	while (nextStep());
 }
 
-void AStarAlgorithm::setNodeMap(Node **map)
+void AStarAlgorithm::setGraph(int **graph)
 {
-	nodeMap = map;
+	this->graph = graph;
 }
 
 Node* AStarAlgorithm::getCurrentNode()

@@ -5,45 +5,34 @@ Comparison::Comparison() : astar(0)
 {
 	xStart = 0;
 	yStart = 0;
-	xFinish = 2;
-	yFinish = 2;
+	xFinish = 5;
+	yFinish = 5;
 }
 
-Node Comparison::createNode(int xPos, int yPos)
+void Comparison::removeNode(int xPos, int yPos)
 {
-	Node node(xPos, yPos, 0, 0);
-
-	if (xPos != 0)
-		node.left = &map[xPos - 1][yPos];
-	node.right = NULL;
-	if (yPos != 0)
-		node.left = &map[xPos][yPos-1];
-	node.up = NULL;
-
-	map[xPos][yPos] = node;
-
-	return node;
+	graph[xPos][yPos] = 0;
 }
 
 void Comparison::init(int horizontalSize, int verticalSize)
 {
 	this->horizontalSize = horizontalSize;
 	this->verticalSize = verticalSize;
-	map = new Node *[horizontalSize];
-	if (map)
+	graph = new int *[horizontalSize];
+	if (graph)
 		for (int i = 0; i < horizontalSize; ++i)
-			map[i] = new Node[verticalSize];
+			graph[i] = new int[verticalSize];
 
 	for(int i = 0; i < horizontalSize; ++i)
 		for (int j = 0; j < verticalSize; ++j)
-			map[i][j] = createNode(i, j);
+			graph[i][j] = 1;
 
 	if (currentAlgorithm = 1)
-		astar.setNodeMap(map), astar.init(horizontalSize, verticalSize, getxStart(), getyStart(),
+		astar.setGraph(graph), astar.init(horizontalSize, verticalSize, getxStart(), getyStart(),
 			getxFinish(), getyFinish());
-	//else
-	// Dijkstra
-
+	else
+		dijkstra.setGraph(graph), dijkstra.init(horizontalSize, verticalSize,
+			new Node(xStart, yStart, 0, 0), new Node(xFinish, yFinish, 0, 0));
 }
 
 void Comparison::updateStart(const int & xStart, const int & yStart)

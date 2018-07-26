@@ -28,13 +28,13 @@ private:
 	Node* n0;
 	Node* m0;
 	int x, y;
-	Node **nodeMap;
+	int **graph;
 
 	int** create2dArray(int rows, int cols);
 
 public:
-	AStarAlgorithm(int a);
-	void setNodeMap(Node **map);
+	AStarAlgorithm(int a /*Error otherwise*/);
+	void setGraph(int **graph);
 	Node* getCurrentNode(); // n0
 	void init(int horizontalSize, int verticalSize, const int & xStart,
 		const int & yStart, const int & xFinish, const int & yFinish);
