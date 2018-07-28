@@ -7,6 +7,7 @@ Comparison::Comparison() : astar(0)
 	yStart = 0;
 	xFinish = 5;
 	yFinish = 5;
+	startFinish = true;
 }
 
 void Comparison::removeNode(int xPos, int yPos)
@@ -33,6 +34,63 @@ void Comparison::init(int horizontalSize, int verticalSize)
 	else
 		dijkstra.setGraph(graph), dijkstra.init(horizontalSize, verticalSize,
 			new Node(xStart, yStart, 0, 0), new Node(xFinish, yFinish, 0, 0));
+}
+
+void Comparison::initAlgorithm()
+{
+	switch (currentAlgorithm)
+	{
+	case 1:
+		astar.init(horizontalSize, verticalSize, xStart, yStart, xFinish, yFinish);
+		break;
+	case 2:
+		dijkstra.init(horizontalSize, verticalSize, new Node(xStart, yStart, 0, 0),
+			new Node(xFinish, yFinish, 0, 0));
+		break;
+	}
+}
+
+void Comparison::nextStep()
+{
+	switch (currentAlgorithm)
+	{
+	case 1:
+		astar.nextStep();
+		break;
+	case 2:
+		dijkstra.nextStep();
+		break;
+	}
+}
+
+POINT Comparison::getCurrentNodeCoordinates()
+{
+	POINT p;
+	Node *n;
+	switch (currentAlgorithm)
+	{
+	case 1:
+		n = astar.getCurrentNode();
+		p.x = n->getxPos();
+		p.y = n->getyPos();
+		break;
+	case 2:
+		n = dijkstra.getCurrentNode();
+		p.x = n->getxPos();
+		p.y = n->getyPos();
+		break;
+	}
+	return p;
+}
+
+void Comparison::updateStartFinishFlag()
+{
+	startFinish = !startFinish;
+}
+
+bool Comparison::startFinishFlag()
+{
+	return startFinish;
 }
 
 void Comparison::updateStart(const int & xStart, const int & yStart)

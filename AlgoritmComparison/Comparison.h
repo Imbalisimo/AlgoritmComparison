@@ -6,19 +6,24 @@
 class Comparison
 {
 private:
-	AStarAlgorithm astar;
-	DijkstraAlgorithm dijkstra;
 	int xStart, yStart, xFinish, yFinish;
 	int horizontalSize=60, verticalSize=60;
 	int **graph;
+	bool startFinish; // true for starting node flag, false for finish node flag
 
 	void removeNode(int xPos, int yPos);
 
 public:
 	Comparison();
 	int currentAlgorithm; // 1 for A*, 2 for Dijkstra
-	bool startFinish; // true for starting node flag, false for finish node flag
+	AStarAlgorithm astar;
+	DijkstraAlgorithm dijkstra;
 
+	void initAlgorithm();
+	void nextStep();
+	POINT getCurrentNodeCoordinates();
+	void updateStartFinishFlag();
+	bool startFinishFlag();
 	void updateStart(const int & xStart, const int & yStart);
 	void updateFinish(const int & xFinish, const int & yFinish);
 	int getxStart() { return xStart; }

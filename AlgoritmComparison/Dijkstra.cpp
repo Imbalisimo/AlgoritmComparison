@@ -28,7 +28,7 @@ void DijkstraAlgorithm::init(int horizontalSize, int verticalSize, Node *src, No
 		for (int j = 0; i < horizontalSize; j++)
 			dist[i][j] = INT_MAX, sptSet[i][j] = false;
 
-	dist[src->getxPos][src->getyPos] = 0;
+	dist[src->getxPos()][src->getyPos()] = 0;
 }
 
 POINT DijkstraAlgorithm::minDistance()
@@ -71,7 +71,7 @@ bool DijkstraAlgorithm::nextStep()
 		char c;
 		int x = u.x, y = u.y;
 		path = "";
-		while (x != src->getxPos || y != src->getyPos)
+		while (x != src->getxPos() || y != src->getyPos())
 		{
 			int distMeter = graph[x][y];
 			int j;
