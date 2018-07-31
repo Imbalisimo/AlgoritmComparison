@@ -40,6 +40,8 @@ void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int & 
 		}
 	}
 
+	path = "";
+
 	// create the start node and push into list of open nodes
 	n0 = new Node(xStart, yStart, 0, 0);
 	n0->updatePriority(xFinish, yFinish);
@@ -71,7 +73,6 @@ bool AStarAlgorithm::nextStep()
 		{
 			// generate the path from finish to start
 			// by following the directions
-			path = "";
 			while (!(x == xStart && y == yStart))
 			{
 				j = dir_map[x][y];
@@ -164,6 +165,11 @@ void AStarAlgorithm::pathFind(const int & xStart, const int & yStart,
 	const int & xFinish, const int & yFinish)
 {
 	while (nextStep());
+}
+
+std::string AStarAlgorithm::getPath()
+{
+	return path;
 }
 
 void AStarAlgorithm::setGraph(int **graph)

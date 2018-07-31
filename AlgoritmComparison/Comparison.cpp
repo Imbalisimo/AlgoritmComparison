@@ -24,6 +24,10 @@ void Comparison::init(int horizontalSize, int verticalSize)
 		for (int i = 0; i < horizontalSize; ++i)
 			graph[i] = new int[verticalSize];
 
+	dir = 4;
+	dx = new int[dir];
+	dy = new int[dir];
+
 	for(int i = 0; i < horizontalSize; ++i)
 		for (int j = 0; j < verticalSize; ++j)
 			graph[i][j] = 1;
@@ -34,6 +38,19 @@ void Comparison::init(int horizontalSize, int verticalSize)
 	else
 		dijkstra.setGraph(graph), dijkstra.init(horizontalSize, verticalSize,
 			new Node(xStart, yStart, 0, 0), new Node(xFinish, yFinish, 0, 0));
+
+	started = false;
+}
+
+std::string Comparison::getPath()
+{
+	switch (currentAlgorithm)
+	{
+	case 1:
+		return astar.getPath();
+	case 2:
+		return dijkstra.getPath();
+	}
 }
 
 void Comparison::initAlgorithm()
@@ -42,10 +59,12 @@ void Comparison::initAlgorithm()
 	{
 	case 1:
 		astar.init(horizontalSize, verticalSize, xStart, yStart, xFinish, yFinish);
+		started = true;
 		break;
 	case 2:
 		dijkstra.init(horizontalSize, verticalSize, new Node(xStart, yStart, 0, 0),
 			new Node(xFinish, yFinish, 0, 0));
+		started = true;
 		break;
 	}
 }
@@ -95,9 +114,28 @@ bool Comparison::startFinishFlag()
 
 void Comparison::updateStart(const int & xStart, const int & yStart)
 {
-	this->xStart = xStart, this->yStart = yStart;
+	if (!started)
+		this->xStart = xStart, this->yStart = yStart;
 }
 void Comparison::updateFinish(const int & xFinish, const int & yFinish)
 {
-	this->xFinish = xFinish, this->yFinish = yFinish;
+	if (!started)
+		this->xFinish = xFinish, this->yFinish = yFinish;
+}
+
+int Comparison::directionX(char c, int xSize)
+{
+	dx[0] = 0;
+	dx[1] = xSize/horizontalSize;
+	dx[2] = 0;
+	dx[3] = -xSize / horizontalSize;
+	return dx[c%'0'];
+}
+int Comparison::directionY(char c, int ySize)
+{
+	dy[0] = -ySize / verticalSize;
+	dy[1] = 0;
+	dy[2] = ySize / verticalSize;
+	dy[3] = 0;
+	return dy[c-'0'];
 }

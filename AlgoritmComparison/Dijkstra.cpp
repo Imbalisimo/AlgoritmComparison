@@ -19,6 +19,7 @@ void DijkstraAlgorithm::init(int horizontalSize, int verticalSize, Node *src, No
 
 	dist = create2dArray<int>(verticalSize, horizontalSize);
 	sptSet = create2dArray<bool>(verticalSize, horizontalSize);
+	path = "";
 
 	dir = 4;
 	dx = new int[dir] { 0, 1, 0, -1 };
@@ -70,7 +71,7 @@ bool DijkstraAlgorithm::nextStep()
 		// make path!!!!!
 		char c;
 		int x = u.x, y = u.y;
-		path = "";
+		
 		while (x != src->getxPos() || y != src->getyPos())
 		{
 			int distMeter = graph[x][y];
@@ -96,6 +97,11 @@ void DijkstraAlgorithm::pathFind(const int & xStart, const int & yStart,
 	const int & xFinish, const int & yFinish)
 {
 	while (nextStep());
+}
+
+std::string DijkstraAlgorithm::getPath()
+{
+	return path;
 }
 
 void DijkstraAlgorithm::setGraph(int **graph)

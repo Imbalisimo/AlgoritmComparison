@@ -26,9 +26,12 @@ private:
 
 public:
 	void setGraph(int **graph);
-	Node* getCurrentNode(); // made from POINT u
 	void init(int horizontalSize, int verticalSize, Node *src, Node *dest);
+
 	bool nextStep();
+	Node* getCurrentNode(); // made from POINT u
 	void pathFind(const int & xStart, const int & yStart,
 		const int & xFinish, const int & yFinish);
+
+	std::string getPath();
 };
