@@ -17,16 +17,16 @@ void DijkstraAlgorithm::init(int horizontalSize, int verticalSize, Node *src, No
 	this->src = src;
 	this->dest = dest;
 
-	dist = create2dArray<int>(verticalSize, horizontalSize);
-	sptSet = create2dArray<bool>(verticalSize, horizontalSize);
+	dist = create2dArray<int>(horizontalSize, verticalSize);
+	sptSet = create2dArray<bool>(horizontalSize, verticalSize);
 	path = "";
 
 	dir = 4;
-	dx = new int[dir] { 0, 1, 0, -1 };
-	dy = new int[dir] { -1, 0, 1, 0 };
+	dx = new int[dir] { 0, -1, 0, 1 };
+	dy = new int[dir] { 1, 0, -1, 0 };
 
-	for (int i = 0; i < verticalSize; i++)
-		for (int j = 0; i < horizontalSize; j++)
+	for (int i = 0; i < horizontalSize; i++)
+		for (int j = 0; j < verticalSize; j++)
 			dist[i][j] = INT_MAX, sptSet[i][j] = false;
 
 	dist[src->getxPos()][src->getyPos()] = 0;
@@ -38,8 +38,8 @@ POINT DijkstraAlgorithm::minDistance()
 	int min = INT_MAX, min_indexX, min_indexY;
 	POINT p;
 
-	for (int i = 0; i < verticalSize; i++)
-		for (int j = 0; i < horizontalSize; j++)
+	for (int i = 0; i < horizontalSize; i++)
+		for (int j = 0; j < verticalSize; j++)
 			if (sptSet[i][j] == false && dist[i][j] <= min)
 				min = dist[i][j], min_indexX = i, min_indexY = j;
 
@@ -52,17 +52,21 @@ bool DijkstraAlgorithm::nextStep()
 {
 	u = minDistance();
 
-	if (dist[u.x][u.y] = INT_MAX)
+	if (dist[u.x][u.y] == INT_MAX)
 		return false; // path not found
 
 	if (!(u.x == dest->getxPos() && u.y == dest->getyPos()))
 	{
 		sptSet[u.x][u.y] = true;
-		for (int i = u.x - 1; i <= u.x + 1; i += 2)
-			for (int j = u.y - 1; j <= u.y + 1; j += 2)
+
+		for (int counter = 0; counter < dir; ++counter)
+		{
+			int i = u.x + dx[counter], j = u.y + dy[counter];
+			if (i >= 0 && i < horizontalSize && j >= 0 && j < verticalSize)
 				if (!sptSet[i][j] && graph[i][j] != 0 && dist[u.x][u.y] != INT_MAX
 					&& dist[u.x][u.y] + graph[i][j] < dist[i][j])
 					dist[i][j] = dist[u.x][u.y] + graph[i][j];
+		}
 
 		return true;
 	}
@@ -80,8 +84,9 @@ bool DijkstraAlgorithm::nextStep()
 			{
 				int xdx = x + dx[i];
 				int ydy = y + dy[i];
-				if (dist[x][y] == graph[x][y] + dist[xdx][ydy])
-					j = i;
+				if (!(xdx < 0 || xdx >= horizontalSize || ydy<0 || ydy>verticalSize))
+					if (dist[x][y] == graph[x][y] + dist[xdx][ydy])
+						j = i;
 			}
 				c = '0' + (j + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
 				path = c + path;

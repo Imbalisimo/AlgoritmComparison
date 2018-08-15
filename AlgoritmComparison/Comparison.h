@@ -29,6 +29,7 @@ public:
 	int getyFinish() { return yFinish; }
 	int getHorizontalSize() { return horizontalSize; }
 	int getVerticalSize() { return verticalSize; }
+	int getGraphState(int x, int y);
 
 	void updateStartFinishFlag();
 	bool startFinishFlag();

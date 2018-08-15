@@ -58,10 +58,12 @@ void Comparison::initAlgorithm()
 	switch (currentAlgorithm)
 	{
 	case 1:
+		astar.setGraph(graph);
 		astar.init(horizontalSize, verticalSize, xStart, yStart, xFinish, yFinish);
 		started = true;
 		break;
 	case 2:
+		dijkstra.setGraph(graph);
 		dijkstra.init(horizontalSize, verticalSize, new Node(xStart, yStart, 0, 0),
 			new Node(xFinish, yFinish, 0, 0));
 		started = true;
@@ -100,6 +102,11 @@ POINT Comparison::getCurrentNodeCoordinates()
 		break;
 	}
 	return p;
+}
+
+int Comparison::getGraphState(int x, int y)
+{
+	return graph[x][y];
 }
 
 void Comparison::updateStartFinishFlag()
