@@ -13,7 +13,7 @@ class AStarAlgorithm
 private:
 	int horizontalSize; // horizontal size of the map
 	int verticalSize; // vertical size size of the map
-	int &xStart, &yStart, &xFinish, &yFinish;
+	int xStart, yStart, xFinish, yFinish;
 	int **map;
 	int **closed_nodes_map; // map of closed (tried-out) nodes
 	int **open_nodes_map; // map of open (not-yet-tried) nodes
@@ -33,15 +33,13 @@ private:
 	int** create2dArray(int rows, int cols);
 
 public:
-	AStarAlgorithm(int a /*Error otherwise*/);
 	void setGraph(int **graph);
-	void init(int horizontalSize, int verticalSize, const int & xStart,
-		const int & yStart, const int & xFinish, const int & yFinish);
+	void init(int horizontalSize, int verticalSize, int xStart,
+		int yStart, int xFinish, int yFinish);
 
 	bool nextStep();
 	Node* getCurrentNode(); // n0
-	void pathFind(const int & xStart, const int & yStart,
-		const int & xFinish, const int & yFinish);
+	void pathFind();
 
 	std::string getPath();
 };

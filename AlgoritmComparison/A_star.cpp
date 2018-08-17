@@ -4,9 +4,6 @@
 #include <type_traits>
 #include <typeinfo>
 
-AStarAlgorithm::AStarAlgorithm(int a) :xStart(*&a), xFinish(*&a), yStart(*&a), yFinish(*&a)
-{ }
-
 int** AStarAlgorithm::create2dArray(int rows, int cols) {
 	int **arr = new int *[rows];
 	if (arr)
@@ -15,19 +12,19 @@ int** AStarAlgorithm::create2dArray(int rows, int cols) {
 	return arr;
 }
 
-void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int & xStart, 
-	const int & yStart, const int & xFinish, const int & yFinish)
+void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int xStart, 
+	const int yStart, const int xFinish, const int yFinish)
 {
 	horizontalSize = horizontalPlaces; // horizontal size of the map
 	verticalSize = verticalPlaces; // vertical size size of the map
-	this->xStart = xStart, this->yStart = yStart, this->xFinish = xFinish, this->xFinish = yFinish;
+	this->xStart = xStart, this->yStart = yStart, this->xFinish = xFinish, this->yFinish = yFinish;
 	map = create2dArray(horizontalSize, verticalSize);
 	closed_nodes_map = create2dArray(horizontalSize, verticalSize);; // map of closed (tried-out) nodes
 	open_nodes_map = create2dArray(horizontalSize, verticalSize);; // map of open (not-yet-tried) nodes
 	dir_map = create2dArray(horizontalSize, verticalSize);; // map of directions
 	dir = 4;
-	dx = new int[dir] { 0, 1, 0, -1 };
-	dy = new int[dir] { -1, 0, 1, 0 };
+	dx = new int[dir] { 0, -1, 0, 1 };
+	dy = new int[dir] { 1, 0, -1, 0 };
 
 	pqi = 0;
 	// reset the node maps
@@ -161,8 +158,7 @@ bool AStarAlgorithm::nextStep()
 	return false; // no route found
 }
 
-void AStarAlgorithm::pathFind(const int & xStart, const int & yStart,
-	const int & xFinish, const int & yFinish)
+void AStarAlgorithm::pathFind()
 {
 	while (nextStep());
 }

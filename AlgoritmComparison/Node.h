@@ -25,14 +25,14 @@ public:
 	int getPriority() const { return priority; }
 
 	void updateLevel(const int & lvl);
-	void updatePriority(const int & xDest, const int & yDest);
+	void updatePriority(const int xDest, const int yDest);
 	void updatePriority(const int & priority);
 
 	// give better priority to going strait instead of diagonally
 	void nextLevel(const int & i); // i: direction
 
 	// Estimation function for the remaining distance to the goal.
-	const int & estimate(const int & xDest, const int & yDest) const;
+	const int estimate(const int xDest, const int yDest) const;
 };
 
 // Determine priority (in the priority queue)

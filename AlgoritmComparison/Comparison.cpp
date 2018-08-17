@@ -1,12 +1,8 @@
 #include "stdafx.h"
 #include "Comparison.h"
 
-Comparison::Comparison() : astar(0) 
+Comparison::Comparison()
 {
-	xStart = 0;
-	yStart = 0;
-	xFinish = 5;
-	yFinish = 5;
 	startFinish = true;
 }
 
@@ -32,12 +28,14 @@ void Comparison::init(int horizontalSize, int verticalSize)
 		for (int j = 0; j < verticalSize; ++j)
 			graph[i][j] = 1;
 
-	if (currentAlgorithm = 1)
+	currentAlgorithm = 0;
+
+	/*if (currentAlgorithm = 1)
 		astar.setGraph(graph), astar.init(horizontalSize, verticalSize, getxStart(), getyStart(),
 			getxFinish(), getyFinish());
 	else
 		dijkstra.setGraph(graph), dijkstra.init(horizontalSize, verticalSize,
-			new Node(xStart, yStart, 0, 0), new Node(xFinish, yFinish, 0, 0));
+			new Node(xStart, yStart, 0, 0), new Node(xFinish, yFinish, 0, 0));*/
 
 	started = false;
 }
@@ -50,6 +48,8 @@ std::string Comparison::getPath()
 		return astar.getPath();
 	case 2:
 		return dijkstra.getPath();
+	default:
+		return "";
 	}
 }
 
@@ -87,6 +87,8 @@ void Comparison::nextStep()
 POINT Comparison::getCurrentNodeCoordinates()
 {
 	POINT p;
+	p.x = -1;
+	p.y = -1;
 	Node *n;
 	switch (currentAlgorithm)
 	{

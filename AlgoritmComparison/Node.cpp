@@ -19,9 +19,9 @@ Node::Node() {}
 //int Node::getLevel() const { return level; }
 //int Node::getPriority() const { return priority; }
 
-void Node::updatePriority(const int & xDest, const int & yDest)
+void Node::updatePriority(const int xDest, const int yDest)
 {
-	priority = level + estimate(xDest, yDest) * 10; //A*
+	priority = level + estimate(xDest, yDest) * 10; // A*
 }
 
 void Node::updatePriority(const int & priority)
@@ -34,13 +34,12 @@ void Node::updateLevel(const int & lvl)
 	level = lvl;
 }
 
-// give better priority to going strait instead of diagonally
 void Node::nextLevel(const int & i) // i: direction
 {
 	level += (dir == 8 ? (i % 2 == 0 ? 10 : 14) : 10);
 }
 
-const int & Node::estimate(const int & xDest, const int & yDest) const
+const int Node::estimate(const int xDest, const int yDest) const
 {
 	static int xd, yd, d;
 	xd = xDest - xPos;
