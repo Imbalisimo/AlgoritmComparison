@@ -40,7 +40,6 @@ public:
 
 	bool nextStep();
 	POINT getCurrentNode(); // n0
-	void pathFind();
 	void clear();
 
 	std::string getPath();

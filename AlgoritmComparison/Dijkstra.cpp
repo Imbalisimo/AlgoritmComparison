@@ -107,12 +107,6 @@ bool DijkstraAlgorithm::nextStep()
 	}
 }
 
-void DijkstraAlgorithm::pathFind(const int & xStart, const int & yStart,
-	const int & xFinish, const int & yFinish)
-{
-	while (nextStep());
-}
-
 void DijkstraAlgorithm::clear()
 {
 	clear2dArray(dist);

@@ -32,8 +32,6 @@ public:
 
 	bool nextStep();
 	POINT getCurrentNode(); // POINT u
-	void pathFind(const int & xStart, const int & yStart,
-		const int & xFinish, const int & yFinish);
 	void clear();
 
 	std::string getPath();

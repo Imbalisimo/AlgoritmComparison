@@ -156,11 +156,6 @@ bool AStarAlgorithm::nextStep()
 	return false; // no route found
 }
 
-void AStarAlgorithm::pathFind()
-{
-	while (nextStep());
-}
-
 std::string AStarAlgorithm::getPath()
 {
 	return path;
