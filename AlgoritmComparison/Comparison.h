@@ -21,6 +21,7 @@ private:
 
 public:
 	Comparison();
+	~Comparison();
 	int currentAlgorithm; // 1 for A*, 2 for Dijkstra
 
 	int getxStart() { return xStart; }

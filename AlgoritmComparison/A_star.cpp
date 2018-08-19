@@ -202,5 +202,4 @@ void AStarAlgorithm::clear()
 	delete[] dy;
 
 	delete n0;
-	delete m0;
 }

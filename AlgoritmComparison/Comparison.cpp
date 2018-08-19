@@ -6,6 +6,16 @@ Comparison::Comparison()
 	startFinish = true;
 }
 
+Comparison::~Comparison()
+{
+	for (int i = 0; i < horizontalSize; ++i)
+		delete[] graph[i];
+
+	delete[] graph;
+	delete[] dx;
+	delete[] dy;
+}
+
 void Comparison::removeNode(int xPos, int yPos)
 {
 	graph[xPos][yPos] = 0;
@@ -113,12 +123,7 @@ void Comparison::clear()
 		break;
 	}
 		started = false;
-		for (int i = 0; i < horizontalSize; ++i)
-			delete[] graph[i];
-
-		delete[] graph;
-		delete[] dx;
-		delete[] dy;
+		currentAlgorithm = 0;
 }
 
 int Comparison::getGraphState(int x, int y)
