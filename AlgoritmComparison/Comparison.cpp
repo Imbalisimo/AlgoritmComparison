@@ -89,21 +89,36 @@ POINT Comparison::getCurrentNodeCoordinates()
 	POINT p;
 	p.x = -1;
 	p.y = -1;
-	Node *n;
 	switch (currentAlgorithm)
 	{
 	case 1:
-		n = astar.getCurrentNode();
-		p.x = n->getxPos();
-		p.y = n->getyPos();
+		p = astar.getCurrentNode();
 		break;
 	case 2:
-		n = dijkstra.getCurrentNode();
-		p.x = n->getxPos();
-		p.y = n->getyPos();
+		p = dijkstra.getCurrentNode();
 		break;
 	}
 	return p;
+}
+
+void Comparison::clear()
+{
+	switch (currentAlgorithm)
+	{
+	case 1:
+		astar.clear();
+		break;
+	case 2:
+		dijkstra.clear();
+		break;
+	}
+		started = false;
+		for (int i = 0; i < horizontalSize; ++i)
+			delete[] graph[i];
+
+		delete[] graph;
+		delete[] dx;
+		delete[] dy;
 }
 
 int Comparison::getGraphState(int x, int y)

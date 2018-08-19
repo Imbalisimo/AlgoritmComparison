@@ -43,4 +43,5 @@ public:
 	void nextStep();
 	POINT getCurrentNodeCoordinates();
 	std::string getPath();
+	void clear();
 };

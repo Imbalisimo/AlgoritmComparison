@@ -10,6 +10,15 @@ T** DijkstraAlgorithm::create2dArray(int rows, int cols) {
 	return arr;
 }
 
+template <class T>
+void DijkstraAlgorithm::clear2dArray(T** array)
+{
+	for (int i = 0; i < horizontalSize; ++i)
+		delete[] array[i];
+
+	delete[] array;
+}
+
 void DijkstraAlgorithm::init(int horizontalSize, int verticalSize, Node *src, Node *dest)
 {
 	this->horizontalSize = horizontalSize;
@@ -104,6 +113,18 @@ void DijkstraAlgorithm::pathFind(const int & xStart, const int & yStart,
 	while (nextStep());
 }
 
+void DijkstraAlgorithm::clear()
+{
+	clear2dArray(dist);
+	clear2dArray(sptSet);
+
+	delete[] dx;
+	delete[] dy;
+
+	delete src;
+	delete dest;
+}
+
 std::string DijkstraAlgorithm::getPath()
 {
 	return path;
@@ -114,7 +135,7 @@ void DijkstraAlgorithm::setGraph(int **graph)
 	this->graph = graph;
 }
 
-Node* DijkstraAlgorithm::getCurrentNode()
+POINT DijkstraAlgorithm::getCurrentNode()
 {
-	return new Node(u.x, u.y, 0, 0);
+	return u;
 }

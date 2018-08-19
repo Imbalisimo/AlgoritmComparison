@@ -23,15 +23,18 @@ private:
 
 	template <class T>
 	T** create2dArray(int rows, int cols);
+	template <class T>
+	void clear2dArray(T** array);
 
 public:
 	void setGraph(int **graph);
 	void init(int horizontalSize, int verticalSize, Node *src, Node *dest);
 
 	bool nextStep();
-	Node* getCurrentNode(); // made from POINT u
+	POINT getCurrentNode(); // POINT u
 	void pathFind(const int & xStart, const int & yStart,
 		const int & xFinish, const int & yFinish);
+	void clear();
 
 	std::string getPath();
 };

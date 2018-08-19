@@ -12,6 +12,14 @@ int** AStarAlgorithm::create2dArray(int rows, int cols) {
 	return arr;
 }
 
+void AStarAlgorithm::clear2dArray(int** array)
+{
+	for (int i = 0; i < horizontalSize; ++i)
+		delete[] array[i];
+
+	delete[] array;
+}
+
 void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int xStart, 
 	const int yStart, const int xFinish, const int yFinish)
 {
@@ -55,6 +63,7 @@ bool AStarAlgorithm::nextStep()
 	if (!pq[pqi].empty())
 	{
 		// get the current node with the highest priority from the list of open nodes
+		delete n0;
 		n0 = new Node(pq[pqi].top().getxPos(), pq[pqi].top().getyPos(),
 			pq[pqi].top().getLevel(), pq[pqi].top().getPriority());
 
@@ -151,6 +160,7 @@ bool AStarAlgorithm::nextStep()
 					pqi = 1 - pqi;
 					pq[pqi].push(*m0); // add the better node instead
 				}
+				else delete m0;
 			}
 		}
 		return true;
@@ -173,7 +183,24 @@ void AStarAlgorithm::setGraph(int **graph)
 	this->graph = graph;
 }
 
-Node* AStarAlgorithm::getCurrentNode()
+POINT AStarAlgorithm::getCurrentNode()
 {
-	return n0;
+	POINT p;
+	p.x = n0->getxPos();
+	p.y = n0->getyPos();
+	return p;
+}
+
+void AStarAlgorithm::clear()
+{
+	clear2dArray(map);
+	clear2dArray(closed_nodes_map);
+	clear2dArray(open_nodes_map);
+	clear2dArray(dir_map);
+
+	delete[] dx;
+	delete[] dy;
+
+	delete n0;
+	delete m0;
 }

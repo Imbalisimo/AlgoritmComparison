@@ -31,6 +31,7 @@ private:
 	int **graph;
 
 	int** create2dArray(int rows, int cols);
+	void clear2dArray(int** array);
 
 public:
 	void setGraph(int **graph);
@@ -38,8 +39,9 @@ public:
 		int yStart, int xFinish, int yFinish);
 
 	bool nextStep();
-	Node* getCurrentNode(); // n0
+	POINT getCurrentNode(); // n0
 	void pathFind();
+	void clear();
 
 	std::string getPath();
 };
