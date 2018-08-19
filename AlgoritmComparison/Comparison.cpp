@@ -16,11 +16,6 @@ Comparison::~Comparison()
 	delete[] dy;
 }
 
-void Comparison::removeNode(int xPos, int yPos)
-{
-	graph[xPos][yPos] = 0;
-}
-
 void Comparison::init()
 {
 	horizontalSize = GetPrivateProfileInt(_T("size"), _T("horizontalSize"), 30, _T("algoComp.ini"));
@@ -48,6 +43,16 @@ void Comparison::init()
 			new Node(xStart, yStart, 0, 0), new Node(xFinish, yFinish, 0, 0));*/
 
 	started = false;
+}
+
+void Comparison::removeNode(int xPos, int yPos)
+{
+	graph[xPos][yPos] = 0;
+}
+
+void Comparison::remakeNode(int xPos, int yPos)
+{
+	graph[xPos][yPos] = 1;
 }
 
 std::string Comparison::getPath()
@@ -155,16 +160,16 @@ void Comparison::updateFinish(const int & xFinish, const int & yFinish)
 int Comparison::directionX(char c, int xSize)
 {
 	dx[0] = 0;
-	dx[1] = xSize/horizontalSize;
+	dx[1] = -xSize/horizontalSize;
 	dx[2] = 0;
-	dx[3] = -xSize / horizontalSize;
+	dx[3] = xSize / horizontalSize;
 	return dx[c%'0'];
 }
 int Comparison::directionY(char c, int ySize)
 {
-	dy[0] = -ySize / verticalSize;
+	dy[0] = ySize / verticalSize;
 	dy[1] = 0;
-	dy[2] = ySize / verticalSize;
+	dy[2] = -ySize / verticalSize;
 	dy[3] = 0;
 	return dy[c-'0'];
 }

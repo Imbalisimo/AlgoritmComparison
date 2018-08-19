@@ -17,8 +17,6 @@ private:
 	bool startFinish; // true for starting node flag, false for finish node flag
 	bool started;
 
-	void removeNode(int xPos, int yPos);
-
 public:
 	Comparison();
 	~Comparison();
@@ -31,6 +29,9 @@ public:
 	int getHorizontalSize() { return horizontalSize; }
 	int getVerticalSize() { return verticalSize; }
 	int getGraphState(int x, int y);
+
+	void removeNode(int xPos, int yPos);
+	void remakeNode(int xPos, int yPos);
 
 	void updateStartFinishFlag();
 	bool startFinishFlag();

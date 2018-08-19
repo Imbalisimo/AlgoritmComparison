@@ -31,8 +31,8 @@ void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int xS
 	open_nodes_map = create2dArray(horizontalSize, verticalSize);; // map of open (not-yet-tried) nodes
 	dir_map = create2dArray(horizontalSize, verticalSize);; // map of directions
 	dir = 4;
-	dx = new int[dir] { 0, -1, 0, 1 };
-	dy = new int[dir] { 1, 0, -1, 0 };
+	dx = new int[dir] { 0, 1, 0, -1 };
+	dy = new int[dir] { -1, 0, 1, 0 };
 
 	pqi = 0;
 	// reset the node maps
@@ -96,21 +96,9 @@ bool AStarAlgorithm::nextStep()
 		for (i = 0; i<dir; i++)
 		{
 			xdx = x + dx[i]; ydy = y + dy[i];
-			switch (i) // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
-			{
-			case 0:
-				if (n0->up == NULL)
-					continue;
-			case 1:
-				if (n0->right == NULL)
-					continue;
-			case 2:
-				if (n0->down == NULL)
-					continue;
-			case 3:
-				if (n0->left == NULL)
-					continue;
-			}
+
+			if (graph[xdx][ydy] == 0)
+				continue;
 
 			if (!(xdx<0 || xdx>horizontalSize - 1 || ydy<0 || ydy>verticalSize - 1
 				|| map[xdx][ydy] == 1 || closed_nodes_map[xdx][ydy] == 1))

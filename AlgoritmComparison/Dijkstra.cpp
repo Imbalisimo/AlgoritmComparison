@@ -31,8 +31,8 @@ void DijkstraAlgorithm::init(int horizontalSize, int verticalSize, Node *src, No
 	path = "";
 
 	dir = 4;
-	dx = new int[dir] { 0, -1, 0, 1 };
-	dy = new int[dir] { 1, 0, -1, 0 };
+	dx = new int[dir] { 0, 1, 0, -1 };
+	dy = new int[dir] { -1, 0, 1, 0 };
 
 	for (int i = 0; i < horizontalSize; i++)
 		for (int j = 0; j < verticalSize; j++)
@@ -94,7 +94,7 @@ bool DijkstraAlgorithm::nextStep()
 				int xdx = x + dx[i];
 				int ydy = y + dy[i];
 				if (!(xdx < 0 || xdx >= horizontalSize || ydy<0 || ydy>verticalSize))
-					if (dist[x][y] == graph[x][y] + dist[xdx][ydy])
+					if (dist[x][y] == graph[x][y] + dist[xdx][ydy]&&graph[xdx][ydy]!=0)
 						j = i;
 			}
 				c = '0' + (j + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
