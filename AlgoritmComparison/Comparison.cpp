@@ -21,10 +21,10 @@ void Comparison::removeNode(int xPos, int yPos)
 	graph[xPos][yPos] = 0;
 }
 
-void Comparison::init(int horizontalSize, int verticalSize)
+void Comparison::init()
 {
-	this->horizontalSize = horizontalSize;
-	this->verticalSize = verticalSize;
+	horizontalSize = GetPrivateProfileInt(_T("size"), _T("horizontalSize"), 30, _T("algoComp.ini"));
+	verticalSize = GetPrivateProfileInt(_T("size"), _T("verticalSize"), 15, _T("algoComp.ini"));
 	graph = new int *[horizontalSize];
 	if (graph)
 		for (int i = 0; i < horizontalSize; ++i)

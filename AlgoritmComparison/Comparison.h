@@ -36,7 +36,7 @@ public:
 	bool startFinishFlag();
 	void updateStart(const int & xStart, const int & yStart);
 	void updateFinish(const int & xFinish, const int & yFinish);
-	void init(int horizontalSize, int verticalSize);
+	void init();
 	int directionX(char c, int horizontalSize);
 	int directionY(char c, int verticalSize);
 
