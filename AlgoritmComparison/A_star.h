@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Node.h"
+#include "Algorithm.h"
 #include <queue>
 #include <string>
 #include <math.h>
@@ -8,19 +9,19 @@
 #include <type_traits>
 #include <typeinfo>
 
-class AStarAlgorithm
+class AStarAlgorithm : public Algorithm
 {
 private:
 	int horizontalSize; // horizontal size of the map
 	int verticalSize; // vertical size size of the map
 	int xStart, yStart, xFinish, yFinish;
-	int **map;
-	int **closed_nodes_map; // map of closed (tried-out) nodes
-	int **open_nodes_map; // map of open (not-yet-tried) nodes
-	int **dir_map; // map of directions
+	std::vector<std::vector<int>> map;
+	std::vector<std::vector<int>> closed_nodes_map; // map of closed (tried-out) nodes
+	std::vector<std::vector<int>> open_nodes_map; // map of open (not-yet-tried) nodes
+	std::vector<std::vector<int>> dir_map; // map of directions
 	int dir;
-	int *dx;
-	int *dy;
+	std::vector<int> dx;
+	std::vector<int> dy;
 	std::string path;
 
 	std::priority_queue<Node> pq[2]; // list of open (not-yet-tried) nodes
@@ -28,13 +29,10 @@ private:
 	Node* n0;
 	Node* m0;
 	int x, y;
-	int **graph;
-
-	int** create2dArray(int rows, int cols);
-	void clear2dArray(int** array);
+	std::vector<std::vector<int>> graph;
 
 public:
-	void setGraph(int **graph);
+	void setGraph(std::vector<std::vector<int>> graph);
 	void init(int horizontalSize, int verticalSize, int xStart,
 		int yStart, int xFinish, int yFinish);
 

@@ -6,21 +6,19 @@
 class Comparison
 {
 private:
-	AStarAlgorithm astar;
-	DijkstraAlgorithm dijkstra;
+	Algorithm * algorithm;
 	int xStart, yStart, xFinish, yFinish;
-	int horizontalSize=60, verticalSize=60;
-	int **graph;
+	int horizontalSize, verticalSize;
+	std::vector<std::vector<int>> graph;
 	int dir;
-	int *dx;
-	int *dy;
+	std::vector<int> dx;
+	std::vector<int> dy;
 	bool startFinish; // true for starting node flag, false for finish node flag
 	bool started;
 
 public:
 	Comparison();
 	~Comparison();
-	int currentAlgorithm; // 1 for A*, 2 for Dijkstra
 
 	int getxStart() { return xStart; }
 	int getyStart() { return yStart; }
@@ -37,6 +35,7 @@ public:
 	bool startFinishFlag();
 	void updateStart(const int & xStart, const int & yStart);
 	void updateFinish(const int & xFinish, const int & yFinish);
+	void setCurrentAlgorithm(Algorithm* algorithm);
 	void init();
 	int directionX(char c, int horizontalSize);
 	int directionY(char c, int verticalSize);

@@ -179,6 +179,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithm.h" />
     <ClInclude Include="AlgoritmComparison.h" />
     <ClInclude Include="A_star.h" />
     <ClInclude Include="ChildView.h" />

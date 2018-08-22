@@ -4,35 +4,19 @@
 #include <type_traits>
 #include <typeinfo>
 
-int** AStarAlgorithm::create2dArray(int rows, int cols) {
-	int **arr = new int *[rows];
-	if (arr)
-		for (int i = 0; i < rows; ++i)
-			arr[i] = new int[cols];
-	return arr;
-}
-
-void AStarAlgorithm::clear2dArray(int** array)
-{
-	for (int i = 0; i < horizontalSize; ++i)
-		delete[] array[i];
-
-	delete[] array;
-}
-
 void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int xStart, 
 	const int yStart, const int xFinish, const int yFinish)
 {
 	horizontalSize = horizontalPlaces; // horizontal size of the map
 	verticalSize = verticalPlaces; // vertical size size of the map
 	this->xStart = xStart, this->yStart = yStart, this->xFinish = xFinish, this->yFinish = yFinish;
-	map = create2dArray(horizontalSize, verticalSize);
-	closed_nodes_map = create2dArray(horizontalSize, verticalSize);; // map of closed (tried-out) nodes
-	open_nodes_map = create2dArray(horizontalSize, verticalSize);; // map of open (not-yet-tried) nodes
-	dir_map = create2dArray(horizontalSize, verticalSize);; // map of directions
+	map.assign(horizontalSize, std::vector<int>(verticalSize, 1));
+	closed_nodes_map.assign(horizontalSize, std::vector<int>(verticalSize, 1)); // map of closed (tried-out) nodes
+	open_nodes_map.assign(horizontalSize, std::vector<int>(verticalSize, 1)); // map of open (not-yet-tried) nodes
+	dir_map.assign(horizontalSize, std::vector<int>(verticalSize, 1)); // map of directions
 	dir = 4;
-	dx = new int[dir] { 0, 1, 0, -1 };
-	dy = new int[dir] { -1, 0, 1, 0 };
+	dx = { 0, 1, 0, -1 };
+	dy = { -1, 0, 1, 0 };
 
 	pqi = 0;
 	// reset the node maps
@@ -97,12 +81,13 @@ bool AStarAlgorithm::nextStep()
 		{
 			xdx = x + dx[i]; ydy = y + dy[i];
 
-			if (graph[xdx][ydy] == 0)
-				continue;
-
 			if (!(xdx<0 || xdx>horizontalSize - 1 || ydy<0 || ydy>verticalSize - 1
-				|| map[xdx][ydy] == 1 || closed_nodes_map[xdx][ydy] == 1))
+				|| map[xdx][ydy] == 0 || closed_nodes_map[xdx][ydy] == 1))
 			{
+
+				if (graph[xdx][ydy] == 0)
+					continue;
+
 				// generate a child node
 				m0 = new Node(xdx, ydy, n0->getLevel(), n0->getPriority());
 				m0->updateLevel(n0->getLevel());
@@ -161,7 +146,7 @@ std::string AStarAlgorithm::getPath()
 	return path;
 }
 
-void AStarAlgorithm::setGraph(int **graph)
+void AStarAlgorithm::setGraph(std::vector<std::vector<int>> graph)
 {
 	this->graph = graph;
 }
@@ -176,13 +161,5 @@ POINT AStarAlgorithm::getCurrentNode()
 
 void AStarAlgorithm::clear()
 {
-	clear2dArray(map);
-	clear2dArray(closed_nodes_map);
-	clear2dArray(open_nodes_map);
-	clear2dArray(dir_map);
-
-	delete[] dx;
-	delete[] dy;
-
 	delete n0;
 }

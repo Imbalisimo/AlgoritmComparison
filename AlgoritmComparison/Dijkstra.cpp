@@ -1,42 +1,23 @@
 #include "stdafx.h"
 #include "Dijkstra.h"
 
-template <class T>
-T** DijkstraAlgorithm::create2dArray(int rows, int cols) {
-	T **arr = new T *[rows];
-	if (arr)
-		for (int i = 0; i < rows; ++i)
-			arr[i] = new T[cols];
-	return arr;
-}
-
-template <class T>
-void DijkstraAlgorithm::clear2dArray(T** array)
-{
-	for (int i = 0; i < horizontalSize; ++i)
-		delete[] array[i];
-
-	delete[] array;
-}
-
-void DijkstraAlgorithm::init(int horizontalSize, int verticalSize, Node *src, Node *dest)
+void DijkstraAlgorithm::init(int horizontalSize, int verticalSize, int xStart,
+	int yStart, int xFinish, int yFinish)
 {
 	this->horizontalSize = horizontalSize;
 	this->verticalSize = verticalSize;
-	this->src = src;
-	this->dest = dest;
+	Node* source = new Node(xStart, yStart, 0, 0);
+	Node* destination = new Node(xFinish, yFinish, 0, 0);
+	this->src = source;
+	this->dest = destination;
 
-	dist = create2dArray<int>(horizontalSize, verticalSize);
-	sptSet = create2dArray<bool>(horizontalSize, verticalSize);
+	dist.assign(horizontalSize, std::vector<int>(verticalSize, INT_MAX));
+	sptSet.assign(horizontalSize, std::vector<bool>(verticalSize, false));
 	path = "";
 
 	dir = 4;
-	dx = new int[dir] { 0, 1, 0, -1 };
-	dy = new int[dir] { -1, 0, 1, 0 };
-
-	for (int i = 0; i < horizontalSize; i++)
-		for (int j = 0; j < verticalSize; j++)
-			dist[i][j] = INT_MAX, sptSet[i][j] = false;
+	dx = { 0, 1, 0, -1 };
+	dy = { -1, 0, 1, 0 };
 
 	dist[src->getxPos()][src->getyPos()] = 0;
 }
@@ -109,12 +90,6 @@ bool DijkstraAlgorithm::nextStep()
 
 void DijkstraAlgorithm::clear()
 {
-	clear2dArray(dist);
-	clear2dArray(sptSet);
-
-	delete[] dx;
-	delete[] dy;
-
 	delete src;
 	delete dest;
 }
@@ -124,7 +99,7 @@ std::string DijkstraAlgorithm::getPath()
 	return path;
 }
 
-void DijkstraAlgorithm::setGraph(int **graph)
+void DijkstraAlgorithm::setGraph(std::vector<std::vector<int>> graph)
 {
 	this->graph = graph;
 }

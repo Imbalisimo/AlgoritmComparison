@@ -8,39 +8,17 @@ Comparison::Comparison()
 
 Comparison::~Comparison()
 {
-	for (int i = 0; i < horizontalSize; ++i)
-		delete[] graph[i];
-
-	delete[] graph;
-	delete[] dx;
-	delete[] dy;
+	delete algorithm;
 }
 
 void Comparison::init()
 {
 	horizontalSize = GetPrivateProfileInt(_T("size"), _T("horizontalSize"), 30, _T("algoComp.ini"));
 	verticalSize = GetPrivateProfileInt(_T("size"), _T("verticalSize"), 15, _T("algoComp.ini"));
-	graph = new int *[horizontalSize];
-	if (graph)
-		for (int i = 0; i < horizontalSize; ++i)
-			graph[i] = new int[verticalSize];
+	algorithm = nullptr;
+	graph.assign(horizontalSize, std::vector<int>(verticalSize, 1));
 
 	dir = 4;
-	dx = new int[dir];
-	dy = new int[dir];
-
-	for(int i = 0; i < horizontalSize; ++i)
-		for (int j = 0; j < verticalSize; ++j)
-			graph[i][j] = 1;
-
-	currentAlgorithm = 0;
-
-	/*if (currentAlgorithm = 1)
-		astar.setGraph(graph), astar.init(horizontalSize, verticalSize, getxStart(), getyStart(),
-			getxFinish(), getyFinish());
-	else
-		dijkstra.setGraph(graph), dijkstra.init(horizontalSize, verticalSize,
-			new Node(xStart, yStart, 0, 0), new Node(xFinish, yFinish, 0, 0));*/
 
 	started = false;
 }
@@ -57,46 +35,25 @@ void Comparison::remakeNode(int xPos, int yPos)
 
 std::string Comparison::getPath()
 {
-	switch (currentAlgorithm)
-	{
-	case 1:
-		return astar.getPath();
-	case 2:
-		return dijkstra.getPath();
-	default:
-		return "";
-	}
+	if(algorithm==nullptr) return "";
+	
+	return algorithm->getPath();
 }
 
 void Comparison::initAlgorithm()
 {
-	switch (currentAlgorithm)
-	{
-	case 1:
-		astar.setGraph(graph);
-		astar.init(horizontalSize, verticalSize, xStart, yStart, xFinish, yFinish);
-		started = true;
-		break;
-	case 2:
-		dijkstra.setGraph(graph);
-		dijkstra.init(horizontalSize, verticalSize, new Node(xStart, yStart, 0, 0),
-			new Node(xFinish, yFinish, 0, 0));
-		started = true;
-		break;
-	}
+	if (algorithm == nullptr) return;
+
+	algorithm->setGraph(graph);
+	algorithm->init(horizontalSize, verticalSize, xStart, yStart, xFinish, yFinish);
+	started = true;
 }
 
 void Comparison::nextStep()
 {
-	switch (currentAlgorithm)
-	{
-	case 1:
-		astar.nextStep();
-		break;
-	case 2:
-		dijkstra.nextStep();
-		break;
-	}
+	if (algorithm == nullptr) return;
+
+	algorithm->nextStep();
 }
 
 POINT Comparison::getCurrentNodeCoordinates()
@@ -104,31 +61,19 @@ POINT Comparison::getCurrentNodeCoordinates()
 	POINT p;
 	p.x = -1;
 	p.y = -1;
-	switch (currentAlgorithm)
-	{
-	case 1:
-		p = astar.getCurrentNode();
-		break;
-	case 2:
-		p = dijkstra.getCurrentNode();
-		break;
-	}
-	return p;
+
+	if (algorithm == nullptr) return p;
+
+	return algorithm->getCurrentNode();
 }
 
 void Comparison::clear()
 {
-	switch (currentAlgorithm)
-	{
-	case 1:
-		astar.clear();
-		break;
-	case 2:
-		dijkstra.clear();
-		break;
-	}
-		started = false;
-		currentAlgorithm = 0;
+	if (algorithm == nullptr) return;
+
+	algorithm->clear();
+
+	started = false;
 }
 
 int Comparison::getGraphState(int x, int y)
@@ -159,17 +104,30 @@ void Comparison::updateFinish(const int & xFinish, const int & yFinish)
 
 int Comparison::directionX(char c, int xSize)
 {
-	dx[0] = 0;
+	dx.push_back(0);
+	dx.push_back(-xSize / horizontalSize);
+	dx.push_back(0);
+	dx.push_back(xSize / horizontalSize);
+	/*dx[0] = 0;
 	dx[1] = -xSize/horizontalSize;
 	dx[2] = 0;
-	dx[3] = xSize / horizontalSize;
+	dx[3] = xSize / horizontalSize;*/
 	return dx[c%'0'];
 }
 int Comparison::directionY(char c, int ySize)
 {
-	dy[0] = ySize / verticalSize;
+	dy.push_back(ySize / verticalSize);
+	dy.push_back(0);
+	dy.push_back(-ySize / verticalSize);
+	dy.push_back(0);
+	/*dy[0] = ySize / verticalSize;
 	dy[1] = 0;
 	dy[2] = -ySize / verticalSize;
-	dy[3] = 0;
+	dy[3] = 0;*/
 	return dy[c-'0'];
+}
+
+void Comparison::setCurrentAlgorithm(Algorithm *algorithm)
+{
+	this->algorithm = algorithm;
 }
