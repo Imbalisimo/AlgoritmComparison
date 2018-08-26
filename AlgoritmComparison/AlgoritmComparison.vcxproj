@@ -180,6 +180,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Algorithm.h" />
+    <ClInclude Include="AlgorithmFactory.h" />
     <ClInclude Include="AlgoritmComparison.h" />
     <ClInclude Include="A_star.h" />
     <ClInclude Include="ChildView.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlgorithmFactory.cpp" />
     <ClCompile Include="AlgoritmComparison.cpp" />
     <ClCompile Include="A_star.cpp" />
     <ClCompile Include="ChildView.cpp" />

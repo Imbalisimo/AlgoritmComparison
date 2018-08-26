@@ -20,17 +20,23 @@ void Comparison::init()
 
 	dir = 4;
 
+	xStart = -1;
+	yStart = -1;
+	xFinish = -1;
+	yFinish = -1;
 	started = false;
 }
 
 void Comparison::removeNode(int xPos, int yPos)
 {
-	graph[xPos][yPos] = 0;
+	if (!started)
+		graph[xPos][yPos] = 0;
 }
 
 void Comparison::remakeNode(int xPos, int yPos)
 {
-	graph[xPos][yPos] = 1;
+	if (!started)
+		graph[xPos][yPos] = 1;
 }
 
 std::string Comparison::getPath()
@@ -38,6 +44,14 @@ std::string Comparison::getPath()
 	if(algorithm==nullptr) return "";
 	
 	return algorithm->getPath();
+}
+
+void Comparison::setCurrentAlgorithm(Algorithm *algorithm)
+{
+	clear();
+	if (xStart != -1 && yStart != -1 && xFinish != -1 && yFinish != -1)
+		this->algorithm = algorithm;
+	initAlgorithm();
 }
 
 void Comparison::initAlgorithm()
@@ -72,6 +86,7 @@ void Comparison::clear()
 	if (algorithm == nullptr) return;
 
 	algorithm->clear();
+	delete algorithm;
 
 	started = false;
 }
@@ -108,10 +123,7 @@ int Comparison::directionX(char c, int xSize)
 	dx.push_back(-xSize / horizontalSize);
 	dx.push_back(0);
 	dx.push_back(xSize / horizontalSize);
-	/*dx[0] = 0;
-	dx[1] = -xSize/horizontalSize;
-	dx[2] = 0;
-	dx[3] = xSize / horizontalSize;*/
+
 	return dx[c%'0'];
 }
 int Comparison::directionY(char c, int ySize)
@@ -120,14 +132,6 @@ int Comparison::directionY(char c, int ySize)
 	dy.push_back(0);
 	dy.push_back(-ySize / verticalSize);
 	dy.push_back(0);
-	/*dy[0] = ySize / verticalSize;
-	dy[1] = 0;
-	dy[2] = -ySize / verticalSize;
-	dy[3] = 0;*/
-	return dy[c-'0'];
-}
 
-void Comparison::setCurrentAlgorithm(Algorithm *algorithm)
-{
-	this->algorithm = algorithm;
+	return dy[c-'0'];
 }

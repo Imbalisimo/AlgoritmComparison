@@ -1,7 +1,6 @@
 #pragma once
 #include "stdafx.h"
-#include "A_star.h"
-#include "Dijkstra.h"
+#include "Algorithm.h"
 
 class Comparison
 {
@@ -16,6 +15,8 @@ private:
 	bool startFinish; // true for starting node flag, false for finish node flag
 	bool started;
 
+	void initAlgorithm();
+	void clear();
 public:
 	Comparison();
 	~Comparison();
@@ -40,9 +41,7 @@ public:
 	int directionX(char c, int horizontalSize);
 	int directionY(char c, int verticalSize);
 
-	void initAlgorithm();
 	void nextStep();
 	POINT getCurrentNodeCoordinates();
 	std::string getPath();
-	void clear();
 };

@@ -74,7 +74,7 @@ bool DijkstraAlgorithm::nextStep()
 			{
 				int xdx = x + dx[i];
 				int ydy = y + dy[i];
-				if (!(xdx < 0 || xdx >= horizontalSize || ydy<0 || ydy>verticalSize))
+				if (!(xdx < 0 || xdx >= horizontalSize || ydy<0 || ydy>=verticalSize))
 					if (dist[x][y] == graph[x][y] + dist[xdx][ydy]&&graph[xdx][ydy]!=0)
 						j = i;
 			}

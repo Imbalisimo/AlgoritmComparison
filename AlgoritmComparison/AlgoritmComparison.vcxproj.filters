@@ -48,6 +48,9 @@
     <ClInclude Include="Algorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AlgorithmFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AlgoritmComparison.cpp">
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Comparison.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlgorithmFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
