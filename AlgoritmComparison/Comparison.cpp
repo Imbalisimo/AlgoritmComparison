@@ -43,6 +43,9 @@ std::string Comparison::getPath()
 {
 	if(algorithm==nullptr) return "";
 	
+	if (algorithm->getPath() != "")
+		started = false;
+
 	return algorithm->getPath();
 }
 
@@ -119,7 +122,6 @@ void Comparison::updateFinish(const int & xFinish, const int & yFinish)
 
 int Comparison::directionX(char c, int xSize)
 {
-	//nesto
 	dx.push_back(0);
 	dx.push_back(-xSize / horizontalSize);
 	dx.push_back(0);
