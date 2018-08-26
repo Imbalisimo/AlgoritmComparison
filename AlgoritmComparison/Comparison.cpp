@@ -119,6 +119,7 @@ void Comparison::updateFinish(const int & xFinish, const int & yFinish)
 
 int Comparison::directionX(char c, int xSize)
 {
+	//nesto
 	dx.push_back(0);
 	dx.push_back(-xSize / horizontalSize);
 	dx.push_back(0);
