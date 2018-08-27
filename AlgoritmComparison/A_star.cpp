@@ -74,6 +74,7 @@ bool AStarAlgorithm::nextStep()
 
 			// empty the leftover nodes
 			while (!pq[pqi].empty()) pq[pqi].pop();
+			return false; // route found
 		}
 
 		// generate moves (child nodes) in all possible directions

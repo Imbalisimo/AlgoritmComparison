@@ -14,6 +14,7 @@ private:
 	std::vector<int> dy;
 	bool startFinish; // true for starting node flag, false for finish node flag
 	bool started;
+	POINT lastNodeSelected;
 
 	void initAlgorithm();
 	void clear();
@@ -37,11 +38,12 @@ public:
 	void updateStart(const int & xStart, const int & yStart);
 	void updateFinish(const int & xFinish, const int & yFinish);
 	void setCurrentAlgorithm(Algorithm* algorithm);
+	bool sameNode(POINT node);
 	void init();
 	int directionX(char c, int horizontalSize);
 	int directionY(char c, int verticalSize);
 
-	void nextStep();
+	bool nextStep();
 	POINT getCurrentNodeCoordinates();
 	std::string getPath();
 };

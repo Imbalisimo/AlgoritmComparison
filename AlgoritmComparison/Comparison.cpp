@@ -24,6 +24,9 @@ void Comparison::init()
 	yStart = -1;
 	xFinish = -1;
 	yFinish = -1;
+
+	lastNodeSelected.x = -1;
+	lastNodeSelected.y = -1;
 	started = false;
 }
 
@@ -37,6 +40,17 @@ void Comparison::remakeNode(int xPos, int yPos)
 {
 	if (!started)
 		graph[xPos][yPos] = 1;
+}
+
+bool Comparison::sameNode(POINT node)
+{
+	if (node.x == lastNodeSelected.x && node.y == lastNodeSelected.y)
+		return true;
+	else
+	{
+		lastNodeSelected = node;
+		return false;
+	}
 }
 
 std::string Comparison::getPath()
@@ -54,6 +68,7 @@ void Comparison::setCurrentAlgorithm(Algorithm *algorithm)
 	clear();
 	if (xStart != -1 && yStart != -1 && xFinish != -1 && yFinish != -1)
 		this->algorithm = algorithm;
+
 	initAlgorithm();
 }
 
@@ -66,11 +81,11 @@ void Comparison::initAlgorithm()
 	started = true;
 }
 
-void Comparison::nextStep()
+bool Comparison::nextStep()
 {
-	if (algorithm == nullptr) return;
+	if (algorithm == nullptr) return false;
 
-	algorithm->nextStep();
+	 return algorithm->nextStep();
 }
 
 POINT Comparison::getCurrentNodeCoordinates()
@@ -114,6 +129,7 @@ void Comparison::updateStart(const int & xStart, const int & yStart)
 	if (!started)
 		this->xStart = xStart, this->yStart = yStart;
 }
+
 void Comparison::updateFinish(const int & xFinish, const int & yFinish)
 {
 	if (!started)
