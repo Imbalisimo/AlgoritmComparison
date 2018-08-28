@@ -15,6 +15,9 @@ void Comparison::init()
 {
 	horizontalSize = GetPrivateProfileInt(_T("size"), _T("horizontalSize"), 30, _T("algoComp.ini"));
 	verticalSize = GetPrivateProfileInt(_T("size"), _T("verticalSize"), 15, _T("algoComp.ini"));
+
+	time = GetPrivateProfileInt(_T("timer"), _T("time"), 50, _T("algoComp.ini"));
+
 	algorithm = nullptr;
 	graph.assign(horizontalSize, std::vector<int>(verticalSize, 1));
 
@@ -28,6 +31,11 @@ void Comparison::init()
 	lastNodeSelected.x = -1;
 	lastNodeSelected.y = -1;
 	started = false;
+
+	algorithm= new DijkstraAlgorithm();
+	path = "";
+	lastCurrentNode.x = -1;
+	lastCurrentNode.y = -1;
 }
 
 void Comparison::removeNode(int xPos, int yPos)
@@ -55,48 +63,59 @@ bool Comparison::sameNode(POINT node)
 
 std::string Comparison::getPath()
 {
-	if(algorithm==nullptr) return "";
+	if(algorithm==nullptr) return path;
 	
-	if (algorithm->getPath() != "")
+	path = algorithm->getPath()=="" ? path : algorithm->getPath();
+	if (path != "")
 		started = false;
 
-	return algorithm->getPath();
+	return path;
 }
 
 void Comparison::setCurrentAlgorithm(Algorithm *algorithm)
 {
 	clear();
-	if (xStart != -1 && yStart != -1 && xFinish != -1 && yFinish != -1)
-		this->algorithm = algorithm;
-
-	initAlgorithm();
+	path = "";
+	lastCurrentNode.x = -1;
+	lastCurrentNode.y = -1;
+	this->algorithm = algorithm;
 }
 
 void Comparison::initAlgorithm()
 {
 	if (algorithm == nullptr) return;
 
-	algorithm->setGraph(graph);
-	algorithm->init(horizontalSize, verticalSize, xStart, yStart, xFinish, yFinish);
-	started = true;
+	if (xStart != -1 && yStart != -1 && xFinish != -1 && yFinish != -1)
+	{
+		algorithm->setGraph(graph);
+		algorithm->init(horizontalSize, verticalSize, xStart, yStart, xFinish, yFinish);
+		started = true;
+	}
+
 }
 
 bool Comparison::nextStep()
 {
 	if (algorithm == nullptr) return false;
 
-	 return algorithm->nextStep();
+	if (!started)
+	{
+		initAlgorithm();
+	}
+
+	if (started)
+		return algorithm->nextStep();
+	else return false;
 }
 
 POINT Comparison::getCurrentNodeCoordinates()
 {
-	POINT p;
-	p.x = -1;
-	p.y = -1;
+	if (algorithm == nullptr) return lastCurrentNode;
 
-	if (algorithm == nullptr) return p;
+	if (started)
+		lastCurrentNode = algorithm->getCurrentNode();
 
-	return algorithm->getCurrentNode();
+	return lastCurrentNode;
 }
 
 void Comparison::clear()

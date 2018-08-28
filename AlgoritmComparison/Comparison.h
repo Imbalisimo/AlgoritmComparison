@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Algorithm.h"
+#include "AlgorithmFactory.h"
 
 class Comparison
 {
@@ -13,8 +14,13 @@ private:
 	std::vector<int> dx;
 	std::vector<int> dy;
 	bool startFinish; // true for starting node flag, false for finish node flag
+	bool readyToStart;
 	bool started;
 	POINT lastNodeSelected;
+	int time;
+
+	std::string path;
+	POINT lastCurrentNode;
 
 	void initAlgorithm();
 	void clear();
@@ -29,6 +35,7 @@ public:
 	int getHorizontalSize() { return horizontalSize; }
 	int getVerticalSize() { return verticalSize; }
 	int getGraphState(int x, int y);
+	int getTime() { return time; }
 
 	void removeNode(int xPos, int yPos);
 	void remakeNode(int xPos, int yPos);
