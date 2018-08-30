@@ -98,6 +98,16 @@ bool Comparison::nextStep()
 {
 	if (algorithm == nullptr) return false;
 
+	if (path != "")
+	{
+		algorithm->clear();
+		algorithm->setGraph(graph);
+		algorithm->init(horizontalSize, verticalSize, xStart, yStart, xFinish, yFinish);
+		lastNodeSelected.x = -1;
+		lastNodeSelected.y = -1;
+		path = "";
+	}
+
 	if (!started)
 	{
 		initAlgorithm();
