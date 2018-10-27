@@ -49,6 +49,7 @@ bool DijkstraAlgorithm::nextStep()
 	{
 		sptSet[u.x][u.y] = true;
 
+		// update surrounding nodes' distance
 		for (int counter = 0; counter < dir; ++counter)
 		{
 			int i = u.x + dx[counter], j = u.y + dy[counter];
@@ -62,29 +63,34 @@ bool DijkstraAlgorithm::nextStep()
 	}
 	else
 	{
-		// make path!!!!!
-		char c;
-		int x = u.x, y = u.y;
-		
-		while (x != src->getxPos() || y != src->getyPos())
-		{
-			int distMeter = graph[x][y];
-			int j;
-			for (int i = 0; i < dir; ++i)
-			{
-				int xdx = x + dx[i];
-				int ydy = y + dy[i];
-				if (!(xdx < 0 || xdx >= horizontalSize || ydy<0 || ydy>=verticalSize))
-					if (dist[x][y] == graph[x][y] + dist[xdx][ydy]&&graph[xdx][ydy]!=0)
-						j = i;
-			}
-				c = '0' + (j + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
-				path = c + path;
-				x += dx[j];
-				y += dy[j];
-		}
+		makePath();
 
 		return false; // path found
+	}
+}
+
+void DijkstraAlgorithm::makePath()
+{
+	// make path!!!!!
+	char c;
+	int x = u.x, y = u.y;
+
+	while (x != src->getxPos() || y != src->getyPos())
+	{
+		int distMeter = graph[x][y];
+		int j;
+		for (int i = 0; i < dir; ++i)
+		{
+			int xdx = x + dx[i];
+			int ydy = y + dy[i];
+			if (!(xdx < 0 || xdx >= horizontalSize || ydy<0 || ydy >= verticalSize))
+				if (dist[x][y] == graph[x][y] + dist[xdx][ydy] && graph[xdx][ydy] != 0)
+					j = i;
+		}
+		c = '0' + (j + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
+		path = c + path;
+		x += dx[j];
+		y += dy[j];
 	}
 }
 

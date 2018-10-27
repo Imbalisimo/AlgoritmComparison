@@ -22,6 +22,7 @@ private:
 	std::string path;
 
 	POINT minDistance();
+	void makePath();
 
 public:
 	void setGraph(std::vector<std::vector<int>> graph);

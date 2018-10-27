@@ -31,6 +31,8 @@ private:
 	int x, y;
 	std::vector<std::vector<int>> graph;
 
+	void makePath();
+
 public:
 	void setGraph(std::vector<std::vector<int>> graph);
 	void init(int horizontalSize, int verticalSize, int xStart,

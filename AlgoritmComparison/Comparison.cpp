@@ -34,20 +34,20 @@ void Comparison::init()
 
 	algorithm= new DijkstraAlgorithm();
 	path = "";
+	numberOfSteps = 0;
 	lastCurrentNode.x = -1;
 	lastCurrentNode.y = -1;
 }
 
-void Comparison::removeNode(int xPos, int yPos)
+void Comparison::setRequiredNodeWeight(int weight)
 {
-	if (!started)
-		graph[xPos][yPos] = 0;
+	nodeSettingWeight = weight;
 }
 
-void Comparison::remakeNode(int xPos, int yPos)
+void Comparison::changeNodeState(int xPos, int yPos)
 {
 	if (!started)
-		graph[xPos][yPos] = 1;
+		graph[xPos][yPos] = nodeSettingWeight;
 }
 
 bool Comparison::sameNode(POINT node)
@@ -76,6 +76,7 @@ void Comparison::setCurrentAlgorithm(Algorithm *algorithm)
 {
 	clear();
 	path = "";
+	numberOfSteps = 0;
 	lastCurrentNode.x = -1;
 	lastCurrentNode.y = -1;
 	this->algorithm = algorithm;
@@ -106,6 +107,7 @@ bool Comparison::nextStep()
 		lastNodeSelected.x = -1;
 		lastNodeSelected.y = -1;
 		path = "";
+		numberOfSteps = 0;
 	}
 
 	if (!started)
@@ -114,7 +116,10 @@ bool Comparison::nextStep()
 	}
 
 	if (started)
+	{
+		++numberOfSteps;
 		return algorithm->nextStep();
+	}
 	else return false;
 }
 

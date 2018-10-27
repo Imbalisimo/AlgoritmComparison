@@ -42,8 +42,6 @@ void AStarAlgorithm::init(int horizontalPlaces, int verticalPlaces, const int xS
 
 bool AStarAlgorithm::nextStep()
 {
-	int i, j, xdx, ydy;
-	char c;
 	if (!pq[pqi].empty())
 	{
 		// get the current node with the highest priority from the list of open nodes
@@ -61,16 +59,7 @@ bool AStarAlgorithm::nextStep()
 
 		if (x == xFinish && y == yFinish)
 		{
-			// generate the path from finish to start
-			// by following the directions
-			while (!(x == xStart && y == yStart))
-			{
-				j = dir_map[x][y];
-				c = '0' + (j + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
-				path = c + path;
-				x += dx[j];
-				y += dy[j];
-			}
+			makePath();
 
 			// empty the leftover nodes
 			while (!pq[pqi].empty()) pq[pqi].pop();
@@ -78,8 +67,9 @@ bool AStarAlgorithm::nextStep()
 		}
 
 		// generate moves (child nodes) in all possible directions
-		for (i = 0; i<dir; i++)
+		for (int i = 0; i<dir; i++)
 		{
+			int xdx, ydy;
 			xdx = x + dx[i]; ydy = y + dy[i];
 
 			if (!(xdx<0 || xdx>horizontalSize - 1 || ydy<0 || ydy>verticalSize - 1
@@ -140,6 +130,23 @@ bool AStarAlgorithm::nextStep()
 		return true;
 	}
 	return false; // no route found
+}
+
+void AStarAlgorithm::makePath()
+{
+	int j;
+	int x = xFinish, y=yFinish;
+	// generate the path from finish to start
+	// by following the directions
+	while (!(x == xStart && y == yStart))
+	{
+		char c;
+		j = dir_map[x][y];
+		c = '0' + (j + dir / 2) % dir; // 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
+		path = c + path;
+		x += dx[j];
+		y += dy[j];
+	}
 }
 
 std::string AStarAlgorithm::getPath()

@@ -14,10 +14,12 @@ private:
 	std::vector<int> dx;
 	std::vector<int> dy;
 	bool startFinish; // true for starting node flag, false for finish node flag
+	int nodeSettingWeight;
 	bool readyToStart;
 	bool started;
 	POINT lastNodeSelected;
 	int time;
+	int numberOfSteps;
 
 	std::string path;
 	POINT lastCurrentNode;
@@ -36,9 +38,10 @@ public:
 	int getVerticalSize() { return verticalSize; }
 	int getGraphState(int x, int y);
 	int getTime() { return time; }
+	int getStepNumber() { return numberOfSteps; }
 
-	void removeNode(int xPos, int yPos);
-	void remakeNode(int xPos, int yPos);
+	void setRequiredNodeWeight(int weight);
+	void changeNodeState(int xPos, int yPos);
 
 	void updateStartFinishFlag();
 	bool startFinishFlag();
