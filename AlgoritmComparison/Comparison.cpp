@@ -118,7 +118,12 @@ bool Comparison::nextStep()
 	if (started)
 	{
 		++numberOfSteps;
-		return algorithm->nextStep();
+		bool algorithmInProgress = algorithm->nextStep();
+		if (!algorithmInProgress)
+		{
+			started = false;
+		}
+		return algorithmInProgress;
 	}
 	else return false;
 }
