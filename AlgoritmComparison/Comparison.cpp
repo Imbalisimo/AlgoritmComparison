@@ -132,7 +132,7 @@ POINT Comparison::getCurrentNodeCoordinates()
 {
 	if (algorithm == nullptr) return lastCurrentNode;
 
-	if (started)
+	if(started || path!="")
 		lastCurrentNode = algorithm->getCurrentNode();
 
 	return lastCurrentNode;

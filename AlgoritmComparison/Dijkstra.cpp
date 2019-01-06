@@ -15,6 +15,9 @@ void DijkstraAlgorithm::init(int horizontalSize, int verticalSize, int xStart,
 	sptSet.assign(horizontalSize, std::vector<bool>(verticalSize, false));
 	path = "";
 
+	u.x = -10;
+	u.y = -10;
+
 	dir = 4;
 	dx = { 0, 1, 0, -1 };
 	dy = { -1, 0, 1, 0 };
